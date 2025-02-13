@@ -97,3 +97,10 @@ print(lre.score(x_test[['horsepower']], y_test))
 
 print(lre.score(x_train[['horsepower']], y_train))
 
+Rcross = cross_val_score(lre, x_data[['horsepower']], y_data, cv=4)
+
+Rcross
+
+print("The mean of the folds are", Rcross.mean(), "and the standard deviation is" , Rcross.std())
+
+-1 * cross_val_score(lre,x_data[['horsepower']], y_data,cv=4,scoring='neg_mean_squared_error')
