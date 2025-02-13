@@ -9,6 +9,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_predict
 
 
 # Step 1: Download the file
@@ -104,3 +105,6 @@ Rcross
 print("The mean of the folds are", Rcross.mean(), "and the standard deviation is" , Rcross.std())
 
 -1 * cross_val_score(lre,x_data[['horsepower']], y_data,cv=4,scoring='neg_mean_squared_error')
+
+yhat = cross_val_predict(lre,x_data[['horsepower']], y_data,cv=4)
+yhat[0:5]
