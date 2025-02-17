@@ -123,3 +123,23 @@ yhat_test[0:5]
 Title = 'Distribution  Plot of  Predicted Value Using Training Data vs Training Data Distribution'
 DistributionPlot(y_train, yhat_train, "Actual Values (Train)", "Predicted Values (Train)", Title)
 
+print("Training R^2:", lr.score(x_train[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_train))
+print("Test R^2:", lr.score(x_test[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_test))
+
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.45, random_state=0)
+
+pr = PolynomialFeatures(degree=5)
+x_train_pr = pr.fit_transform(x_train[['horsepower']])
+x_test_pr = pr.fit_transform(x_test[['horsepower']])
+pr
+
+poly = LinearRegression()
+poly.fit(x_train_pr, y_train)
+
+yhat = poly.predict(x_test_pr)
+yhat[0:5]
+
+print("Predicted values:", yhat[0:4])
+print("True values:", y_test[0:4].values)
+
+PollyPlot(x_train['horsepower'], x_test['horsepower'], y_train, y_test, poly,pr)
