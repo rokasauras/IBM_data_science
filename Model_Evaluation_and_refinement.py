@@ -11,6 +11,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import cross_val_predict
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge
 
 
 
@@ -166,4 +167,55 @@ plt.plot(order, Rsqu_test)
 plt.xlabel('order')
 plt.ylabel('R^2')
 plt.title('R^2 Using Test Data')
-plt.text(3, 0.75, 'Maximum R^2 ')    
+plt.text(3, 0.75, 'Maximum R^2 ')  
+
+def f(order, test_data):
+    x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=test_data, random_state=0)
+    pr = PolynomialFeatures(degree=order)
+    x_train_pr = pr.fit_transform(x_train[['horsepower']])
+    x_test_pr = pr.fit_transform(x_test[['horsepower']])
+    poly = LinearRegression()
+    poly.fit(x_train_pr,y_train)
+    PollyPlot(x_train['horsepower'], x_test['horsepower'], y_train, y_test, poly,pr)
+
+interact(f, order=(0, 6, 1), test_data=(0.05, 0.95, 0.05))
+
+pr=PolynomialFeatures(degree=2)
+x_train_pr=pr.fit_transform(x_train[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg','normalized-losses','symboling']])
+x_test_pr=pr.fit_transform(x_test[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg','normalized-losses','symboling']])
+
+RigeModel=Ridge(alpha=1)
+
+RigeModel.fit(x_train_pr, y_train)
+
+yhat = RigeModel.predict(x_test_pr)
+print('predicted:', yhat[0:4])
+print('test set :', y_test[0:4].values)
+
+from tqdm import tqdm
+
+Rsqu_test = []
+Rsqu_train = []
+dummy1 = []
+Alpha = 10 * np.array(range(0,1000))
+pbar = tqdm(Alpha)
+
+for alpha in pbar:
+    RigeModel = Ridge(alpha=alpha) 
+    RigeModel.fit(x_train_pr, y_train)
+    test_score, train_score = RigeModel.score(x_test_pr, y_test), RigeModel.score(x_train_pr, y_train)
+    
+    pbar.set_postfix({"Test Score": test_score, "Train Score": train_score})
+
+    Rsqu_test.append(test_score)
+    Rsqu_train.append(train_score)
+
+width = 12
+height = 10
+plt.figure(figsize=(width, height))
+
+plt.plot(Alpha,Rsqu_test, label='validation data  ')
+plt.plot(Alpha,Rsqu_train, 'r', label='training Data ')
+plt.xlabel('alpha')
+plt.ylabel('R^2')
+plt.legend()
