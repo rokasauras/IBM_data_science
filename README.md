@@ -21,8 +21,6 @@
     <li><a href="#modelling-visualisations">Modelling &amp; Visualisations</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#dependencies">Dependencies</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#licence">Licence</a></li>
 </ol>
 
 <hr/>
@@ -188,10 +186,6 @@ cd automotive-price-prediction
 <p>Install them via:</p>
 <pre><code>pip install pandas numpy matplotlib seaborn requests ipywidgets scikit-learn tqdm</code></pre>
 
-<hr/>
-
-<h2 id="contributing">7. Contributing</h2>
-<p>Contributions are welcome. Please open issues for suggestions or submit pull requests for bug fixes and enhancements.</p>
 
 <hr/>
 
