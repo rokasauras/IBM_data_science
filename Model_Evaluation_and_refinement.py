@@ -219,3 +219,28 @@ plt.plot(Alpha,Rsqu_train, 'r', label='training Data ')
 plt.xlabel('alpha')
 plt.ylabel('R^2')
 plt.legend()
+
+from sklearn.model_selection import GridSearchCV
+
+parameters1= [{'alpha': [0.001,0.1,1, 10, 100, 1000, 10000, 100000, 100000]}]
+parameters1
+
+RR=Ridge()
+RR
+
+Grid1 = GridSearchCV(RR, parameters1,cv=4)
+
+Grid1.fit(x_data[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_data)
+
+BestRR=Grid1.best_estimator_
+BestRR
+
+BestRR.score(x_test[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_test)
+
+parameters2 = [{'alpha': [0.001, 0.1, 1, 10, 100, 1000, 10000, 100000, 100000]}]
+
+Grid2 = GridSearchCV(Ridge(), parameters2, cv=4)
+Grid2.fit(x_data[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_data)
+best_alpha = Grid2.best_params_['alpha']
+best_ridge_model = Ridge(alpha=best_alpha)
+best_ridge_model.fit(x_data[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_data)
