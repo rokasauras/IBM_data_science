@@ -10,6 +10,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import cross_val_predict
+from sklearn.preprocessing import PolynomialFeatures
+
 
 
 # Step 1: Download the file
@@ -108,3 +110,16 @@ print("The mean of the folds are", Rcross.mean(), "and the standard deviation is
 
 yhat = cross_val_predict(lre,x_data[['horsepower']], y_data,cv=4)
 yhat[0:5]
+
+lr = LinearRegression()
+lr.fit(x_train[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']], y_train)
+
+yhat_train = lr.predict(x_train[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']])
+yhat_train[0:5]
+
+yhat_test = lr.predict(x_test[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']])
+yhat_test[0:5]
+
+Title = 'Distribution  Plot of  Predicted Value Using Training Data vs Training Data Distribution'
+DistributionPlot(y_train, yhat_train, "Actual Values (Train)", "Predicted Values (Train)", Title)
+
